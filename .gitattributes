@@ -1,0 +1,7 @@
+gradlew filter=lfs diff=lfs merge=lfs -origin
+gradlew.bat filter=lfs diff=lfs merge=lfs -origin
+gradle/wrapper/gradle-wrapper.jar filter=lfs diff=lfs merge=lfs -origin
+gradle/wrapper/gradle-wrapper.properties filter=lfs diff=lfs merge=lfs -origin
+* origin=auto eol=lf
+*.java ident
+*.xml ident
