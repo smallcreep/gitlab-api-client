@@ -26,7 +26,7 @@ package com.github.smallcreep.misc.match;
 
 import java.io.IOException;
 import org.cactoos.Text;
-import org.cactoos.text.Sprintf;
+import org.cactoos.text.FormattedText;
 
 /**
  * Create origin error, for assert.
@@ -49,7 +49,7 @@ public final class SimpleErrorAsText implements Text {
      */
     public SimpleErrorAsText(final Object expected, final Object actual) {
         this(
-            new Sprintf(
+            new FormattedText(
                 "%nExpected: <%s>"
                     + "%n     but: was <%s>",
                 expected,

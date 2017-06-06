@@ -24,6 +24,11 @@
 
 package com.github.smallcreep.misc.match;
 
+import org.cactoos.Scalar;
+import org.cactoos.text.StringAsText;
+import org.cactoos.text.TextAsLong;
+import org.junit.Test;
+
 /**
  * Test Case for {@link HasValue}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
@@ -32,4 +37,31 @@ package com.github.smallcreep.misc.match;
  */
 public final class HasValueTest {
 
+    /**
+     * Check Matcher execute wrapped matcher
+     * with actual value is equals
+     * return value method {@link Scalar#asValue()} object actual.
+     * @throws Exception If fails
+     */
+    @Test
+    public void executeMethodAsValue() throws Exception {
+        new Assert.That<>(
+            new HasValue<>(
+                new IsEqualTo<>(
+                    // @checkstyle MagicNumberCheck (1 line)
+                    100L
+                )
+            ),
+            new HasMatch<>(
+                new TextAsLong(
+                    new StringAsText(
+                        "100"
+                    )
+                ),
+                new IsHasReturn(
+                    false
+                )
+            )
+        ).truth();
+    }
 }

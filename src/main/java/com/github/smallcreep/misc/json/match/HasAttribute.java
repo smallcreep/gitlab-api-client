@@ -29,7 +29,7 @@ import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
 import com.github.smallcreep.misc.match.SimpleError;
 import java.io.IOException;
 import javax.json.JsonObject;
-import org.cactoos.text.Sprintf;
+import org.cactoos.text.FormattedText;
 
 /**
  * Matcher HasJson has attribute.
@@ -57,14 +57,14 @@ public final class HasAttribute extends AbstractTypeSafeMatcher<JsonObject> {
 
     @Override
     protected Optional<AssertionError> matchSafely(final JsonObject actual)
-            throws IOException {
+        throws IOException {
         final Optional<AssertionError> error;
         if (!actual.containsKey(attribute)) {
             error = new SimpleError<>(
-                    new Sprintf(
-                            "JSON Attribute <{%s}>",
-                            attribute
-                    ).asString()
+                new FormattedText(
+                    "JSON Attribute <{%s}>",
+                    attribute
+                ).asString()
             ).match(actual);
         } else {
             error = new Optional.Empty<>();

@@ -25,7 +25,7 @@ package com.github.smallcreep.misc;
 
 import java.util.Iterator;
 import org.cactoos.Text;
-import org.cactoos.text.Sprintf;
+import org.cactoos.text.FormattedText;
 
 /**
  * Text of iterator.
@@ -59,7 +59,7 @@ public final class TextOfIterator implements Text {
         }
         while (this.iterator.hasNext()) {
             result.append(
-                    new Sprintf(
+                    new FormattedText(
                             "%nAnd%s",
                             this.iterator.next().toString()
                     ).asString()

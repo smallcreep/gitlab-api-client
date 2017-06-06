@@ -60,7 +60,7 @@ project.ext {
     log4jVersion = "2.8.2"
     jerseyClientVersion = "1.19.3"
     jcabiXmlVersion = "0.18.1"
-    cactoosVersion = "0.1"
+    cactoosVersion = "0.2"
     jcabiImmutableVersion = "1.4"
     equalsverifierVersion = "2.3"
 }
