@@ -80,7 +80,7 @@ public abstract class AbstractTypeSafeMatcher<T> implements Matcher<T> {
     public final Optional<AssertionError> match(final Object actual)
         throws IOException {
         Optional<AssertionError> result = new AndOf<>(
-            new NotNull<>(),
+            new IsNotNull<>(),
             new IsType<>(this.type)
         ).match(actual);
         if (!result.has()) {

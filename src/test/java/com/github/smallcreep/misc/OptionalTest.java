@@ -31,7 +31,7 @@ import com.github.smallcreep.misc.match.IsEqualTo;
 import com.github.smallcreep.misc.match.IsHasReturn;
 import com.github.smallcreep.misc.match.IsSame;
 import com.github.smallcreep.misc.match.IsThrowError;
-import com.github.smallcreep.misc.match.NotNull;
+import com.github.smallcreep.misc.match.IsNotNull;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
@@ -122,7 +122,7 @@ public final class OptionalTest {
                 UnsupportedOperationException.class,
                 "there is nothing here, use has() first, to check",
                 new HasElement<>(
-                    new NotNull<>()
+                    new IsNotNull<>()
                 )
             )
         ).truth();

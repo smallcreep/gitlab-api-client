@@ -24,53 +24,28 @@
 
 package com.github.smallcreep.misc.match;
 
-import org.junit.Test;
+import com.github.smallcreep.misc.Optional;
+import java.io.IOException;
 
 /**
- * Test Case for {@link NotNull}.
+ * Match actual object not null.
  *
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
+ * @param <T> Type object
  * @since 0.1
  */
-public final class NotNullTest {
+public final class IsNotNull<T> implements Matcher<T> {
 
-    /**
-     * Check {@link NotNull#match(Object)} return error,
-     * if actual object is null.
-     * @throws Exception If fails
-     */
-    @Test
-    public void errorIfNull() throws Exception {
-        new Assert.That<>(
-            new NotNull<>(),
-            new HasMatch<>(
-                null,
-                new HasElement<>(
-                    new HasLocalizedMessage(
-                        "\nExpected: <Not null object>"
-                            + "\n     but: was <found null>"
-                    )
-                )
-            )
-        ).truth();
-    }
-
-    /**
-     * Check {@link NotNull#match(Object)} doesn't return error,
-     * if actual object isn't null.
-     * @throws Exception If fails
-     */
-    @Test
-    public void emptyIfNotNull() throws Exception {
-        new Assert.That<>(
-            new NotNull<>(),
-            new HasMatch<>(
-                "actual",
-                new IsHasReturn(
-                    false
-                )
-            )
-        ).truth();
+    @Override
+    public Optional<AssertionError> match(final Object actual)
+        throws IOException {
+        return new ErrorIf(
+            new SimpleErrorAsText(
+                "Not null object",
+                "found null"
+            ),
+            () -> actual != null
+        ).asValue();
     }
 }
