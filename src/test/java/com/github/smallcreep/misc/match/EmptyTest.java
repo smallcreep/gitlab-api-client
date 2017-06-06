@@ -24,22 +24,30 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
-import java.io.IOException;
+import org.junit.Test;
 
 /**
- * Matcher return empty Optional.
- *
+ * Test Case for {@link Empty}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Type Matcher
  * @since 0.1
  */
-public final class Empty<T> implements Matcher<T> {
+public final class EmptyTest {
 
-    @Override
-    public Optional<AssertionError> match(final Object actual)
-        throws IOException {
-        return new Optional.Empty<>();
+    /**
+     * Check return empty Optional.
+     * @throws Exception If fails
+     */
+    @Test
+    public void emptyOptional() throws Exception {
+        new Assert.That<>(
+            new Empty<>(),
+            new HasMatch(
+                null,
+                new IsHasReturn<>(
+                    false
+                )
+            )
+        ).truth();
     }
 }
