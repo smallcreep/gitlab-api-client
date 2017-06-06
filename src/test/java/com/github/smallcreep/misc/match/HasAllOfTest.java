@@ -24,63 +24,41 @@
 
 package com.github.smallcreep.misc.match;
 
-import org.cactoos.text.StringAsText;
 import org.junit.Test;
 
 /**
- * Test Case for {@link ErrorIf}.
+ * Test Case for {@link HasAllOf}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
- * @checkstyle ClassDataAbstractionCouplingCheck (150 lines)
  */
-public final class ErrorIfTest {
+public final class HasAllOfTest {
 
     /**
-     * Check doesn't return error
-     * if apply return true.
+     * Check Matcher aggregate all errors.
      * @throws Exception If fails
      */
     @Test
-    public void emptyIfApplyTrue() throws Exception {
+    public void aggregateErrors() throws Exception {
         new Assert.That<>(
-            new ErrorIf(
-                new StringAsText(
-                    "error"
+            new HasAllOf<>(
+                new IsEqualTo<>(
+                    "expected"
                 ),
-                () -> true
-            ),
-            new HasValue<>(
-                new IsHasReturn<>(
-                    false
+                new IsNotNull<>(),
+                new IsEqualTo<>(
+                    "test"
                 )
-            )
-        ).truth();
-    }
-
-    /**
-     * Check return error
-     * if apply return false.
-     * @throws Exception If fails
-     */
-    @Test
-    public void errorIfApplyFalse() throws Exception {
-        new Assert.That<>(
-            new ErrorIf(
-                new StringAsText(
-                    "error"
-                ),
-                () -> false
             ),
-            new HasValue<>(
-                new HasAllOf(
-                    new IsHasReturn<>(
-                        true
-                    ),
-                    new HasElement<>(
-                        new HasLocalizedMessage(
-                            "error"
-                        )
+            new HasMatch<>(
+                "actual",
+                new HasElement<>(
+                    new HasLocalizedMessage(
+                        "\nExpected: <expected>"
+                            + "\n     but: was <actual>"
+                            + "\nAnd"
+                            + "\nExpected: <test>"
+                            + "\n     but: was <actual>"
                     )
                 )
             )
