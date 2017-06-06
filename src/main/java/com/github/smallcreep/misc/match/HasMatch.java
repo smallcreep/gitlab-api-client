@@ -53,6 +53,7 @@ public final class HasMatch<T> extends AbstractTypeSafeMatcher<Matcher<T>> {
      */
     public HasMatch(final Object fake,
                     final Matcher<Optional> matcher) {
+        super();
         this.fake = fake;
         this.matcher = matcher;
     }

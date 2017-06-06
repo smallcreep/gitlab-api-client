@@ -44,7 +44,7 @@ public final class IsEqualTo<T> implements Matcher<T> {
     private final Object expected;
 
     /**
-     * Public Ctro.
+     * Public Ctor.
      * @param expected Expected object
      */
     public IsEqualTo(final T expected) {
@@ -54,12 +54,12 @@ public final class IsEqualTo<T> implements Matcher<T> {
     @Override
     public Optional<AssertionError> match(final Object actual)
         throws IOException {
-        final Optional<AssertionError> result;
-        if (!expected.equals(actual)) {
-            result = new SimpleError<T>(expected).match(actual);
-        } else {
-            result = new Optional.Empty<>();
-        }
-        return result;
+        return new ErrorIf(
+            new SimpleErrorAsText(
+                expected,
+                actual
+            ),
+            () -> expected.equals(actual)
+        ).asValue();
     }
 }

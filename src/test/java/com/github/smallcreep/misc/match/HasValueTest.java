@@ -24,54 +24,12 @@
 
 package com.github.smallcreep.misc.match;
 
-import org.junit.Test;
-
 /**
- * Test Case for {@link IsType}.
+ * Test Case for {@link HasValue}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class IsTypeTest {
+public final class HasValueTest {
 
-    /**
-     * Check Matcher doesn't return error if objects have the same type.
-     * @throws Exception If fails
-     */
-    @Test
-    public void emptyIfSameType() throws Exception {
-        new Assert.That<>(
-            new IsType<>(
-                String.class
-            ),
-            new HasMatch<>(
-                "test",
-                new IsHasReturn(
-                    false
-                )
-            )
-        ).truth();
-    }
-
-    /**
-     * Check Matcher return error if objects have different type.
-     * @throws Exception If fails
-     */
-    @Test
-    public void errorIfDifferentType() throws Exception {
-        new Assert.That<>(
-            new IsType<>(
-                Integer.class
-            ),
-            new HasMatch<>(
-                "test",
-                new HasElement<>(
-                    new HasLocalizedMessage(
-                        "\nExpected: <class java.lang.Integer>"
-                            + "\n     but: was <class java.lang.String>"
-                    )
-                )
-            )
-        ).truth();
-    }
 }

@@ -42,7 +42,7 @@ import org.hamcrest.internal.ReflectiveTypeFinder;
 public abstract class AbstractTypeSafeMatcher<T> implements Matcher<T> {
 
     /**
-     *
+     * Default type finder.
      */
     private static final ReflectiveTypeFinder TYPE_FINDER =
         new ReflectiveTypeFinder("matchSafely", 1, 0);

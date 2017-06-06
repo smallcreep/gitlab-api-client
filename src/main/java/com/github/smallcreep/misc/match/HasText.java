@@ -47,6 +47,7 @@ public final class HasText extends AbstractTypeSafeMatcher<Text> {
      * @param matcher Wrapped matcher
      */
     public HasText(final Matcher<String> matcher) {
+        super();
         this.matcher = matcher;
     }
 

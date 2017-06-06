@@ -40,7 +40,7 @@ public final class IsThrowErrorTest {
      * @throws Exception If fails
      */
     @Test
-    public void returnErrorIfErrorNotHappened() throws Exception {
+    public void errorIfErrorNotHappened() throws Exception {
         final String expected = "test";
         new Assert.That<>(
             new IsThrowError<>(
@@ -69,7 +69,7 @@ public final class IsThrowErrorTest {
      * @throws Exception If fails
      */
     @Test
-    public void returnErrorIfAnotherError() throws Exception {
+    public void errorIfAnotherError() throws Exception {
         new Assert.That<>(
             new IsThrowError<>(
                 NullPointerException.class,

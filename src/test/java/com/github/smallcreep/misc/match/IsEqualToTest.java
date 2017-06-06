@@ -24,52 +24,29 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
 import org.junit.Test;
 
 /**
- * Test Case for {@link IsHasReturn}.
+ * Test Case for {@link IsEqualTo}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class IsHasReturnTest {
+public final class IsEqualToTest {
 
     /**
      * Check Matcher doesn't return error
-     * if wrapped matcher return empty error,
-     * and expected false.
+     * if actual object equal expected object.
      * @throws Exception If fails
      */
     @Test
-    public void emptyIfSameEmpty() throws Exception {
+    public void emptyIfActualEqualExpected() throws Exception {
         new Assert.That<>(
-            new IsHasReturn(
-                false
+            new IsEqualTo<>(
+                "expected"
             ),
             new HasMatch<>(
-                new Optional.Empty<>(),
-                new IsHasReturn(
-                    false
-                )
-            )
-        ).truth();
-    }
-
-    /**
-     * Check Matcher doesn't return error
-     * if wrapped matcher return error,
-     * and expected true.
-     * @throws Exception If fails
-     */
-    @Test
-    public void emptyIfSameError() throws Exception {
-        new Assert.That<>(
-            new IsHasReturn(
-                true
-            ),
-            new HasMatch<>(
-                new Optional.Single<>("test"),
+                "expected",
                 new IsHasReturn(
                     false
                 )
@@ -79,46 +56,21 @@ public final class IsHasReturnTest {
 
     /**
      * Check Matcher return error
-     * if wrapped matcher return error,
-     * and expected false.
+     * if actual object doesn't equal expected object.
      * @throws Exception If fails
      */
     @Test
-    public void errorIfErrorExpectedFalse() throws Exception {
+    public void errorIfActualDoesNotEqualExpected() throws Exception {
         new Assert.That<>(
-            new IsHasReturn(
-                false
+            new IsEqualTo<>(
+                "expected"
             ),
             new HasMatch<>(
-                new Optional.Single<>("test"),
+                "actual",
                 new HasElement<>(
                     new HasLocalizedMessage(
-                        "\nExpected: <false>"
-                            + "\n     but: was <true>"
-                    )
-                )
-            )
-        ).truth();
-    }
-
-    /**
-     * Check Matcher return error
-     * if wrapped matcher doesn't return error,
-     * and expected true.
-     * @throws Exception If fails
-     */
-    @Test
-    public void errorIfEmptyExpectedTrue() throws Exception {
-        new Assert.That<>(
-            new IsHasReturn(
-                true
-            ),
-            new HasMatch<>(
-                new Optional.Empty<>(),
-                new HasElement<>(
-                    new HasLocalizedMessage(
-                        "\nExpected: <true>"
-                            + "\n     but: was <false>"
+                        "\nExpected: <expected>"
+                            + "\n     but: was <actual>"
                     )
                 )
             )
