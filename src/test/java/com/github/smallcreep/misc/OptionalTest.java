@@ -29,9 +29,9 @@ import com.github.smallcreep.misc.match.HasElement;
 import com.github.smallcreep.misc.match.HasToString;
 import com.github.smallcreep.misc.match.IsEqualTo;
 import com.github.smallcreep.misc.match.IsHasReturn;
+import com.github.smallcreep.misc.match.IsNotNull;
 import com.github.smallcreep.misc.match.IsSame;
 import com.github.smallcreep.misc.match.IsThrowError;
-import com.github.smallcreep.misc.match.IsNotNull;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
 
