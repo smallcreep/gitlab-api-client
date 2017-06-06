@@ -24,34 +24,36 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
-import java.io.IOException;
+import org.cactoos.text.StringAsText;
+import org.junit.Test;
 
 /**
- * Matcher match return {@link Optional#has()}.
+ * Test Case for {@link ErrorIf}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Optional type
  * @since 0.1
  */
-public final class IsHasReturn<T> extends AbstractTypeSafeMatcher<Optional<T>> {
+public final class ErrorIfTest {
 
     /**
-     * Expected.
+     * Check doesn't return error
+     * if apply return true.
+     * @throws Exception If fails
      */
-    private final Boolean expected;
-
-    /**
-     * Public Ctor.
-     * @param expected Expected
-     */
-    public IsHasReturn(final Boolean expected) {
-        this.expected = expected;
-    }
-
-    @Override
-    protected Optional<AssertionError> matchSafely(final Optional<T> actual)
-        throws IOException {
-        return new IsEqualTo<>(expected).match(actual.has());
+    @Test
+    public void emptyIfApplyTrue() throws Exception {
+        new Assert.That<>(
+            new ErrorIf(
+                new StringAsText(
+                    "error"
+                ),
+                () -> true
+            ),
+            new HasValue<>(
+                new IsHasReturn<>(
+                    false
+                )
+            )
+        ).truth();
     }
 }
