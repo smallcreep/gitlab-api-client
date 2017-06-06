@@ -56,4 +56,33 @@ public final class ErrorIfTest {
             )
         ).truth();
     }
+
+    /**
+     * Check return error
+     * if apply return false.
+     * @throws Exception If fails
+     */
+    @Test
+    public void errorIfApplyFalse() throws Exception {
+        new Assert.That<>(
+            new ErrorIf(
+                new StringAsText(
+                    "error"
+                ),
+                () -> false
+            ),
+            new HasValue<>(
+                new HasAllOf(
+                    new IsHasReturn<>(
+                        true
+                    ),
+                    new HasElement<>(
+                        new HasLocalizedMessage(
+                            "error"
+                        )
+                    )
+                )
+            )
+        ).truth();
+    }
 }
