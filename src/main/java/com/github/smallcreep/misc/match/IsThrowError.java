@@ -91,7 +91,7 @@ public final class IsThrowError<T> implements Matcher<T> {
         try {
             this.matcher.match(actual);
             // @checkstyle IllegalCatchCheck (1 line)
-        } catch (final Exception exc) {
+        } catch (final Throwable thr) {
             error = new HasAllOf<>(
                 new IsType<>(
                     this.exception
@@ -99,7 +99,7 @@ public final class IsThrowError<T> implements Matcher<T> {
                 new HasLocalizedMessage(
                     this.msg
                 )
-            ).match(exc);
+            ).match(thr);
         }
         return error;
     }
