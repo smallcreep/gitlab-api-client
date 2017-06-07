@@ -24,9 +24,9 @@
 
 package com.github.smallcreep.misc.json.match;
 
-import com.github.smallcreep.misc.Optional;
 import com.github.smallcreep.misc.json.JsonReadable;
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
 import javax.json.JsonObject;
 

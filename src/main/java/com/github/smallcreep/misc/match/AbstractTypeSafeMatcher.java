@@ -24,7 +24,8 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
+import com.github.smallcreep.misc.match.core.FirstOf;
+import com.github.smallcreep.misc.match.core.IsNotNull;
 import java.io.IOException;
 import org.hamcrest.internal.ReflectiveTypeFinder;
 
@@ -79,7 +80,7 @@ public abstract class AbstractTypeSafeMatcher<T> implements Matcher<T> {
     @SuppressWarnings("unchecked")
     public final Optional<AssertionError> match(final Object actual)
         throws IOException {
-        Optional<AssertionError> result = new FirstOf(
+        Optional<AssertionError> result = new FirstOf<>(
             new IsNotNull<>(),
             new IsType<>(this.type)
         ).match(actual);

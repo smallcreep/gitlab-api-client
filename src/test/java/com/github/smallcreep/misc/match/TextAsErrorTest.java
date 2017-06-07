@@ -24,6 +24,9 @@
 
 package com.github.smallcreep.misc.match;
 
+import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
+import com.github.smallcreep.misc.match.core.HasValue;
 import org.cactoos.text.StringAsText;
 import org.junit.Test;
 
@@ -41,15 +44,14 @@ public final class TextAsErrorTest {
      * @throws Exception If fails
      */
     @Test
-    @SuppressWarnings("unchecked")
     public void createNewError() throws Exception {
-        new Assert.That(
+        new Assert.That<>(
             new TextAsError(
                 new StringAsText("test")
             ),
             new HasValue<>(
                 new HasElement<>(
-                    new HasLocalizedMessage(
+                    new HasLocalizedMessage<>(
                         "test"
                     )
                 )

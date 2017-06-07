@@ -24,11 +24,11 @@
 
 package com.github.smallcreep.misc.json.match;
 
-import com.github.smallcreep.misc.Optional;
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Optional;
 import com.github.smallcreep.misc.match.SimpleError;
 import java.io.IOException;
-import javax.json.JsonObject;
+import java.util.Map;
 import org.cactoos.text.FormattedText;
 
 /**
@@ -36,34 +36,36 @@ import org.cactoos.text.FormattedText;
  *
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
+ * @param <T> Type Matcher
  * @since 0.1
  */
-public final class HasAttribute extends AbstractTypeSafeMatcher<JsonObject> {
+public final class HasAttribute<T extends Map<Object, ?>> extends
+    AbstractTypeSafeMatcher<T> {
 
     /**
      * Expected Attribute.
      */
-    private final String attribute;
+    private final Object attribute;
 
     /**
      * Public Ctor.
      *
      * @param attribute Expected Attribute
      */
-    public HasAttribute(final String attribute) {
-        super(JsonObject.class);
+    public HasAttribute(final Object attribute) {
+        super();
         this.attribute = attribute;
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final JsonObject actual)
+    protected Optional<AssertionError> matchSafely(final T actual)
         throws IOException {
         final Optional<AssertionError> error;
-        if (!actual.containsKey(attribute)) {
+        if (!actual.containsKey(this.attribute)) {
             error = new SimpleError<>(
                 new FormattedText(
-                    "JSON Attribute <{%s}>",
-                    attribute
+                    "Map attribute <{%s}>",
+                    this.attribute.toString()
                 ).asString()
             ).match(actual);
         } else {

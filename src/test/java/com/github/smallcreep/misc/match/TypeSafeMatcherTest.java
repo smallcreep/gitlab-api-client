@@ -24,7 +24,10 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
+import com.github.smallcreep.misc.match.core.Empty;
+import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
+import com.github.smallcreep.misc.match.core.HasMatch;
 import java.io.IOException;
 import org.junit.Test;
 
@@ -48,13 +51,13 @@ public final class TypeSafeMatcherTest {
                 @Override
                 protected Optional<AssertionError> matchSafely(
                     final Integer actual) throws IOException {
-                    return new Empty().match(actual);
+                    return new Empty<>().match(actual);
                 }
             },
-            new HasMatch<>(
+            new HasMatch(
                 "10",
                 new HasElement<>(
-                    new HasLocalizedMessage(
+                    new HasLocalizedMessage<>(
                         "\nExpected: <class java.lang.Integer>"
                             + "\n     but: was <class java.lang.String>"
                     )
@@ -75,13 +78,13 @@ public final class TypeSafeMatcherTest {
                 @Override
                 protected Optional<AssertionError> matchSafely(
                     final String actual) throws IOException {
-                    return new Empty().match(actual);
+                    return new Empty<>().match(actual);
                 }
             },
-            new HasMatch<>(
+            new HasMatch(
                 null,
                 new HasElement<>(
-                    new HasLocalizedMessage(
+                    new HasLocalizedMessage<>(
                         "\nExpected: <Not null object>"
                             + "\n     but: was <found null>"
                     )

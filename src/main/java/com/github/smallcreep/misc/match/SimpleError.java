@@ -24,7 +24,6 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
 import java.io.IOException;
 
 /**

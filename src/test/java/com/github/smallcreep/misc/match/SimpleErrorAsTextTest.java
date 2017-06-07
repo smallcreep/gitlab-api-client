@@ -24,6 +24,8 @@
 
 package com.github.smallcreep.misc.match;
 
+import com.github.smallcreep.misc.match.core.IsEqualTo;
+import com.github.smallcreep.misc.match.text.HasText;
 import org.junit.Test;
 
 /**

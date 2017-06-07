@@ -24,7 +24,6 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
 import java.io.IOException;
 
 /**
@@ -47,7 +46,7 @@ public final class IsType<T> implements Matcher<T> {
      * Public Ctor.
      * @param type Expected class.
      */
-    protected IsType(final Class<?> type) {
+    public IsType(final Class<?> type) {
         this.type = type;
     }
 

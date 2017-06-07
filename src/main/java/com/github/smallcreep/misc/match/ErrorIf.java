@@ -24,7 +24,6 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
 import java.io.IOException;
 import org.cactoos.Scalar;
 import org.cactoos.Text;
@@ -73,7 +72,7 @@ public final class ErrorIf implements Scalar<Optional<AssertionError>> {
      * Function.
      */
     @FunctionalInterface
-    interface Func {
+    public interface Func {
 
         /**
          * Function method.

@@ -24,6 +24,11 @@
 
 package com.github.smallcreep.misc.match;
 
+import com.github.smallcreep.misc.match.core.HasAllOf;
+import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
+import com.github.smallcreep.misc.match.core.HasValue;
+import com.github.smallcreep.misc.match.core.IsHasReturn;
 import org.cactoos.text.StringAsText;
 import org.junit.Test;
 
@@ -73,12 +78,12 @@ public final class ErrorIfTest {
                 () -> false
             ),
             new HasValue<>(
-                new HasAllOf(
+                new HasAllOf<Optional<AssertionError>>(
                     new IsHasReturn<>(
                         true
                     ),
                     new HasElement<>(
-                        new HasLocalizedMessage(
+                        new HasLocalizedMessage<>(
                             "error"
                         )
                     )

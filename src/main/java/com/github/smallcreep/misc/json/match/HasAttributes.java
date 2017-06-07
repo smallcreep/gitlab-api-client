@@ -24,10 +24,10 @@
 
 package com.github.smallcreep.misc.json.match;
 
-import com.github.smallcreep.misc.Optional;
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
-import com.github.smallcreep.misc.match.HasAllOf;
 import com.github.smallcreep.misc.match.Matcher;
+import com.github.smallcreep.misc.match.Optional;
+import com.github.smallcreep.misc.match.core.HasAllOf;
 import com.jcabi.immutable.Array;
 import java.io.IOException;
 import javax.json.JsonObject;

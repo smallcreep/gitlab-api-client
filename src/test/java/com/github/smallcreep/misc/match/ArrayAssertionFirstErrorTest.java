@@ -24,7 +24,10 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
+import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
+import com.github.smallcreep.misc.match.core.HasValue;
+import com.github.smallcreep.misc.match.core.IsHasReturn;
 import org.cactoos.list.ArrayAsIterable;
 import org.junit.Test;
 
@@ -43,9 +46,9 @@ public final class ArrayAssertionFirstErrorTest {
      */
     @Test
     public void firstError() throws Exception {
-        new Assert.That(
+        new Assert.That<>(
             new ArrayAssertionFirstError(
-                new ArrayAsIterable<>(
+                new ArrayAsIterable<Optional<AssertionError>>(
                     new Optional.Empty<>(),
                     new Optional.Single<>(
                         new AssertionError(
@@ -62,7 +65,7 @@ public final class ArrayAssertionFirstErrorTest {
             ),
             new HasValue<>(
                 new HasElement<>(
-                    new HasLocalizedMessage(
+                    new HasLocalizedMessage<>(
                         "first"
                     )
                 )
@@ -77,15 +80,15 @@ public final class ArrayAssertionFirstErrorTest {
      */
     @Test
     public void empty() throws Exception {
-        new Assert.That(
+        new Assert.That<>(
             new ArrayAssertionFirstError(
-                new ArrayAsIterable<>(
+                new ArrayAsIterable<Optional<AssertionError>>(
                     new Optional.Empty<>(),
                     new Optional.Empty<>()
                 )
             ),
             new HasValue<>(
-                new IsHasReturn(
+                new IsHasReturn<>(
                     false
                 )
             )

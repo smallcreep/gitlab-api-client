@@ -24,8 +24,6 @@
 
 package com.github.smallcreep.misc.match;
 
-import com.github.smallcreep.misc.Optional;
-import com.github.smallcreep.misc.TextOfIterable;
 import java.io.IOException;
 import org.cactoos.Func;
 import org.cactoos.Scalar;
