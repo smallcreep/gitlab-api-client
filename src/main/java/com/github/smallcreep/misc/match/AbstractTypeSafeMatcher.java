@@ -79,7 +79,7 @@ public abstract class AbstractTypeSafeMatcher<T> implements Matcher<T> {
     @SuppressWarnings("unchecked")
     public final Optional<AssertionError> match(final Object actual)
         throws IOException {
-        Optional<AssertionError> result = new AndOf<>(
+        Optional<AssertionError> result = new FirstOf(
             new IsNotNull<>(),
             new IsType<>(this.type)
         ).match(actual);
