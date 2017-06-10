@@ -70,11 +70,13 @@ public final class IsTypeTest {
             ),
             new HasMatch(
                 "test",
-                new HasElement<>(
-                    new HasError(
-                        new HasLocalizedMessage<>(
-                            "\nExpected: <class java.lang.Integer>"
-                                + "\n     but: was <class java.lang.String>"
+                new AddOptionalSimpleAssertion(
+                    new HasElement<>(
+                        new HasError(
+                            new HasLocalizedMessage<>(
+                                "\nExpected: that object has class java.lang.Integer"
+                                    + "\n     but: was actual object has class java.lang.String"
+                            )
                         )
                     )
                 )

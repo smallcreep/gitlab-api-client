@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match;
 
 import java.io.IOException;
+import org.cactoos.text.FormattedText;
 
 /**
  * Matcher object has expected class.
@@ -53,12 +54,17 @@ public final class IsType<T> implements Matcher<T> {
     @Override
     public Optional<Assertion> match(final Object actual)
         throws IOException {
-        return new ErrorIf(
-            new SimpleErrorAsText(
-                this.type,
-                actual.getClass()
-            ),
-            () -> this.type.isInstance(actual)
-        ).asValue();
+        final Optional<Assertion> assertion;
+        if (this.type.isInstance(actual)) {
+            assertion = new Optional.Empty<>();
+        } else {
+            assertion = new Optional.Single<>(
+                new Assertion.Simple(
+                    new FormattedText("that object has %s", this.type),
+                    new FormattedText("actual object has %s", actual.getClass())
+                )
+            );
+        }
+        return assertion;
     }
 }
