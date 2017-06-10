@@ -62,17 +62,12 @@ public final class IsEqualTo<T> implements Matcher<T> {
     @Override
     public Optional<Assertion> match(final Object actual)
         throws IOException {
-        final Optional<Assertion> assertion;
-        if (!expected.equals(actual)) {
-            assertion = new Optional.Single<>(
-                new Assertion.Simple(
-                    new FormattedText("that equals <%s>", expected),
-                    new FormattedText("<%s>", actual)
-                )
-            );
-        } else {
-            assertion = new Optional.Empty<>();
-        }
-        return assertion;
+        return new ErrorIf(
+            new Assertion.Simple(
+                new FormattedText("that equals <%s>", expected),
+                new FormattedText("<%s>", actual)
+            ),
+            () -> expected.equals(actual)
+        ).asValue();
     }
 }

@@ -30,6 +30,7 @@ import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
 import com.github.smallcreep.misc.match.SimpleErrorAsText;
 import java.io.IOException;
+import org.cactoos.text.FormattedText;
 
 /**
  * Matcher match that expected object is the same
@@ -58,9 +59,9 @@ public final class IsSame<T> implements Matcher<T> {
     public Optional<Assertion> match(final Object actual)
         throws IOException {
         return new ErrorIf(
-            new SimpleErrorAsText(
-                expected,
-                actual
+            new Assertion.Simple(
+                new FormattedText("that same <%s>", expected),
+                new FormattedText("<%s>", actual)
             ),
             () -> expected == actual
         ).asValue();

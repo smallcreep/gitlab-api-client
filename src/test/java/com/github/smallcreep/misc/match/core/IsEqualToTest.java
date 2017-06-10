@@ -24,6 +24,7 @@
 
 package com.github.smallcreep.misc.match.core;
 
+import com.github.smallcreep.misc.match.AddOptionalSimpleAssertion;
 import com.github.smallcreep.misc.match.Assert;
 import org.junit.Test;
 
@@ -68,11 +69,13 @@ public final class IsEqualToTest {
             ),
             new HasMatch(
                 "actual",
-                new HasElement<>(
-                    new HasError(
-                        new HasLocalizedMessage<>(
-                            "\nExpected: <expected>"
-                                + "\n     but: was <actual>"
+                new AddOptionalSimpleAssertion(
+                    new HasElement<>(
+                        new HasError(
+                            new HasLocalizedMessage<>(
+                                "\nExpected: that equals <expected>"
+                                    + "\n     but: was <actual>"
+                            )
                         )
                     )
                 )
