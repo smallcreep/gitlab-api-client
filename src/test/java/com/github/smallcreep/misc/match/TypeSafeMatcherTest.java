@@ -26,6 +26,7 @@ package com.github.smallcreep.misc.match;
 
 import com.github.smallcreep.misc.match.core.Empty;
 import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasError;
 import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
 import com.github.smallcreep.misc.match.core.HasMatch;
 import java.io.IOException;
@@ -49,7 +50,7 @@ public final class TypeSafeMatcherTest {
         new Assert.That<>(
             new AbstractTypeSafeMatcher<Integer>() {
                 @Override
-                protected Optional<AssertionError> matchSafely(
+                protected Optional<Assertion> matchSafely(
                     final Integer actual) throws IOException {
                     return new Empty<>().match(actual);
                 }
@@ -57,9 +58,11 @@ public final class TypeSafeMatcherTest {
             new HasMatch(
                 "10",
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <class java.lang.Integer>"
-                            + "\n     but: was <class java.lang.String>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <class java.lang.Integer>"
+                                + "\n     but: was <class java.lang.String>"
+                        )
                     )
                 )
             )
@@ -76,7 +79,7 @@ public final class TypeSafeMatcherTest {
         new Assert.That<>(
             new AbstractTypeSafeMatcher<String>() {
                 @Override
-                protected Optional<AssertionError> matchSafely(
+                protected Optional<Assertion> matchSafely(
                     final String actual) throws IOException {
                     return new Empty<>().match(actual);
                 }
@@ -84,9 +87,11 @@ public final class TypeSafeMatcherTest {
             new HasMatch(
                 null,
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <Not null object>"
-                            + "\n     but: was <found null>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <Not null object>"
+                                + "\n     but: was <found null>"
+                        )
                     )
                 )
             )

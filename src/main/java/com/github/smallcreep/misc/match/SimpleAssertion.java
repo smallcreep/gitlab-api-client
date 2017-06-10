@@ -24,23 +24,39 @@
 
 package com.github.smallcreep.misc.match;
 
-import java.io.IOException;
+
+import lombok.EqualsAndHashCode;
 
 /**
- * Matcher.
  *
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Matcher type
  * @since 0.1
  */
-public interface Matcher<T> {
+public final class SimpleAssertion implements Assertion {
 
-    /**
-     * Match actual item.
-     * @param actual Actual item
-     * @return Optional, if optional has, than match fail
-     * @throws IOException if there is any problem
-     */
-    Optional<Assertion> match(Object actual) throws IOException;
+    private final Assertion origin;
+
+    public SimpleAssertion(final Assertion origin) {
+        this.origin = origin;
+    }
+
+    @Override
+    public AssertionError error() {
+        return origin.addExpected(
+            "%nExpected: %s"
+        ).addActual(
+            "%n     but: was %s"
+        ).error();
+    }
+
+    @Override
+    public Assertion addExpected(final String exp) {
+        return this.origin.addExpected(exp);
+    }
+
+    @Override
+    public Assertion addActual(final String act) {
+        return this.origin.addActual(act);
+    }
 }

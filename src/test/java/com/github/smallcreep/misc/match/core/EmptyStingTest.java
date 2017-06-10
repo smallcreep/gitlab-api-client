@@ -22,25 +22,14 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.misc.match;
-
-import java.io.IOException;
+package com.github.smallcreep.misc.match.core;
 
 /**
- * Matcher.
- *
+ * Test Case for {@link }.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Matcher type
  * @since 0.1
  */
-public interface Matcher<T> {
+public final class EmptyStingTest {
 
-    /**
-     * Match actual item.
-     * @param actual Actual item
-     * @return Optional, if optional has, than match fail
-     * @throws IOException if there is any problem
-     */
-    Optional<Assertion> match(Object actual) throws IOException;
 }

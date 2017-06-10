@@ -51,7 +51,7 @@ public final class SimpleError<T> implements Matcher<T> {
     }
 
     @Override
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
         return new TextAsError(
             new SimpleErrorAsText(this.expected, actual)

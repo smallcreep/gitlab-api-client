@@ -37,24 +37,24 @@ import org.cactoos.list.FilteredIterable;
  * @since 0.1
  */
 public final class ArrayAssertionFirstError
-    implements Scalar<Optional<AssertionError>> {
+    implements Scalar<Optional<Assertion>> {
 
     /**
      * Iterable Assertion Error.
      */
-    private final Iterable<Optional<AssertionError>> errors;
+    private final Iterable<Optional<Assertion>> errors;
 
     /**
      * Public Ctor.
      * @param errors Iterable Assertion Error
      */
     public ArrayAssertionFirstError(
-        final Iterable<Optional<AssertionError>> errors) {
+        final Iterable<Optional<Assertion>> errors) {
         this.errors = new FilteredIterable<>(
             errors,
-            new Func<Optional<AssertionError>, Boolean>() {
+            new Func<Optional<Assertion>, Boolean>() {
                 @Override
-                public Boolean apply(final Optional<AssertionError> input)
+                public Boolean apply(final Optional<Assertion> input)
                     throws IOException {
                     return input.has();
                 }
@@ -63,8 +63,8 @@ public final class ArrayAssertionFirstError
     }
 
     @Override
-    public Optional<AssertionError> asValue() throws IOException {
-        final Optional<AssertionError> error;
+    public Optional<Assertion> asValue() throws IOException {
+        final Optional<Assertion> error;
         if (errors.iterator().hasNext()) {
             error = errors.iterator().next();
         } else {

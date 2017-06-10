@@ -24,6 +24,7 @@
 
 package com.github.smallcreep.misc.match.core;
 
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.ErrorIf;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
@@ -31,7 +32,7 @@ import com.github.smallcreep.misc.match.SimpleErrorAsText;
 import java.io.IOException;
 
 /**
- * Match actual object not null.
+ * Match actual object isn't null.
  *
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
@@ -41,7 +42,7 @@ import java.io.IOException;
 public final class IsNotNull<T> implements Matcher<T> {
 
     @Override
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
         return new ErrorIf(
             new SimpleErrorAsText(

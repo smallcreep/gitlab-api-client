@@ -53,8 +53,17 @@ public final class HasMatchTest {
             ),
             new HasMatch(
                 new IsNotNull<>(),
-                new IsHasReturn<>(
-                    true
+                new HasAllOf<>(
+                    new IsHasReturn<>(
+                        true
+                    ),
+                    new HasElement<>(
+                        new HasError(
+                            new HasLocalizedMessage<>(
+                                ""
+                            )
+                        )
+                    )
                 )
             )
         ).truth();

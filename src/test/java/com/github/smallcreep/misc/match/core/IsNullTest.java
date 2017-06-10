@@ -22,25 +22,57 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.misc.match;
+package com.github.smallcreep.misc.match.core;
 
-import java.io.IOException;
+import com.github.smallcreep.misc.match.Assert;
+import org.junit.Test;
 
 /**
- * Matcher.
- *
+ * Test Case for {@link IsNull}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Matcher type
  * @since 0.1
  */
-public interface Matcher<T> {
+public final class IsNullTest {
 
     /**
-     * Match actual item.
-     * @param actual Actual item
-     * @return Optional, if optional has, than match fail
-     * @throws IOException if there is any problem
+     * Check Matcher doesn't return error
+     * if actual object is null.
+     * @throws Exception If fails
      */
-    Optional<Assertion> match(Object actual) throws IOException;
+    @Test
+    public void emptyIfActualIsNull() throws Exception {
+        new Assert.That<>(
+            new IsNull<>(),
+            new HasMatch(
+                null,
+                new IsHasReturn<>(
+                    false
+                )
+            )
+        ).truth();
+    }
+
+    /**
+     * Check Matcher return error
+     * if actual object isn't null.
+     * @throws Exception If fails
+     */
+    @Test
+    public void errorIfActualIsNotNull() throws Exception {
+        new Assert.That<>(
+            new IsNull<>(),
+            new HasMatch(
+                "test",
+                new HasElement<>(
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <null>"
+                                + "\n     but: was <test>"
+                        )
+                    )
+                )
+            )
+        ).truth();
+    }
 }

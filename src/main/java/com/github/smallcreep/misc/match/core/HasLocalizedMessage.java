@@ -25,8 +25,11 @@
 package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Assertion;
+import com.github.smallcreep.misc.match.ErrorIf;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
+import com.github.smallcreep.misc.match.SimpleErrorAsText;
 import java.io.IOException;
 
 /**
@@ -63,8 +66,22 @@ public final class HasLocalizedMessage<T extends Throwable> extends
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final T actual)
+    protected Optional<Assertion> matchSafely(final T actual)
         throws IOException {
-        return matcher.match(actual.getLocalizedMessage());
+        return new ErrorIf(
+            new SimpleErrorAsText(
+                this.toString(),
+                actual
+            ),
+            () -> !matcher.match(actual.getLocalizedMessage()).has()
+        ).asValue();
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "Throwable return, after call function getLocalizedMessage(), String that <%s>",
+            this.matcher
+        );
     }
 }

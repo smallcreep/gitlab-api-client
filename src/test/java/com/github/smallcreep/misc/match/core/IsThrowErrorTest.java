@@ -55,9 +55,11 @@ public final class IsThrowErrorTest {
             new HasMatch(
                 expected,
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <throw class java.lang.AssertionError>"
-                            + "\n     but: was <not throw any exception>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <throw class java.lang.AssertionError>"
+                                + "\n     but: was <not throw any exception>"
+                        )
                     )
                 )
             )
@@ -81,14 +83,16 @@ public final class IsThrowErrorTest {
             new HasMatch(
                 "",
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <class java.lang.NullPointerException>"
-                            + "\n     but: was "
-                            + "<class java.lang.UnsupportedOperationException>"
-                            + "\nAnd"
-                            + "\nExpected: <actual>"
-                            + "\n     but: was "
-                            + "<Method match(Object) not supported>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <class java.lang.NullPointerException>"
+                                + "\n     but: was "
+                                + "<class java.lang.UnsupportedOperationException>"
+                                + "\nAnd"
+                                + "\nExpected: <actual>"
+                                + "\n     but: was "
+                                + "<Method match(Object) not supported>"
+                        )
                     )
                 )
             )

@@ -26,6 +26,7 @@ package com.github.smallcreep.misc.match;
 
 import com.github.smallcreep.misc.match.core.HasAllOf;
 import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasError;
 import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
 import com.github.smallcreep.misc.match.core.HasValue;
 import com.github.smallcreep.misc.match.core.IsHasReturn;
@@ -78,13 +79,15 @@ public final class ErrorIfTest {
                 () -> false
             ),
             new HasValue<>(
-                new HasAllOf<Optional<AssertionError>>(
+                new HasAllOf<Optional<Assertion>>(
                     new IsHasReturn<>(
                         true
                     ),
                     new HasElement<>(
-                        new HasLocalizedMessage<>(
-                            "error"
+                        new HasError(
+                            new HasLocalizedMessage<>(
+                                "error"
+                            )
                         )
                     )
                 )

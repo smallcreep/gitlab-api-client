@@ -24,6 +24,7 @@
 
 package com.github.smallcreep.misc.match.core;
 
+import com.github.smallcreep.misc.match.AddOptionalSimpleAssertion;
 import com.github.smallcreep.misc.match.Assert;
 import com.github.smallcreep.misc.match.Optional;
 import org.junit.Test;
@@ -56,6 +57,36 @@ public final class HasElementTest {
                 ),
                 new IsHasReturn<>(
                     false
+                )
+            )
+        ).truth();
+    }
+
+    /**
+     * Check Matcher correct wrapped Assertion msg.
+     * @throws Exception If fails
+     */
+    @Test
+    public void correctErrorMsg() throws Exception {
+        new Assert.That<>(
+            new HasElement<>(
+                new IsEqualTo<>(
+                    "expected"
+                )
+            ),
+            new HasMatch(
+                new Optional.Single<>(
+                    "actual"
+                ),
+                new AddOptionalSimpleAssertion(
+                    new HasElement<>(
+                        new HasError(
+                            new HasLocalizedMessage<>(
+                                "\nExpected: that Optional, after call function get(), must return the element that equals <expected>"
+                                    + "\n     but: was Optional return element <actual>"
+                            )
+                        )
+                    )
                 )
             )
         ).truth();

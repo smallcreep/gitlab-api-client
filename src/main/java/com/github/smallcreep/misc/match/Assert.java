@@ -77,9 +77,11 @@ public interface Assert {
 
         @Override
         public void truth() throws IOException {
-            final Optional<AssertionError> error = this.matcher.match(obj);
-            if (error.has()) {
-                throw error.get();
+            final Optional<Assertion> assertion = this.matcher.match(obj);
+            if (assertion.has()) {
+                throw new SimpleAssertion(
+                    assertion.get()
+                ).error();
             }
         }
     }

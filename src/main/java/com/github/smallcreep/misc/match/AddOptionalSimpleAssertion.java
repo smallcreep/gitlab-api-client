@@ -27,20 +27,24 @@ package com.github.smallcreep.misc.match;
 import java.io.IOException;
 
 /**
- * Matcher.
  *
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Matcher type
  * @since 0.1
  */
-public interface Matcher<T> {
+public final class AddOptionalSimpleAssertion extends AbstractTypeSafeMatcher<Optional<Assertion>> {
 
-    /**
-     * Match actual item.
-     * @param actual Actual item
-     * @return Optional, if optional has, than match fail
-     * @throws IOException if there is any problem
-     */
-    Optional<Assertion> match(Object actual) throws IOException;
+    private final Matcher<Optional<Assertion>> matcher;
+
+    public AddOptionalSimpleAssertion(final Matcher<Optional<Assertion>> matcher) {
+        super();
+        this.matcher = matcher;
+    }
+
+    @Override
+    protected Optional<Assertion> matchSafely(final Optional<Assertion> actual) throws IOException {
+        return this.matcher.match(new OptionalSimpleAssertion(actual).asValue());
+    }
+
+
 }

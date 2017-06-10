@@ -26,6 +26,7 @@ package com.github.smallcreep.misc.json.match;
 
 import com.github.smallcreep.misc.match.Assert;
 import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasError;
 import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
 import com.github.smallcreep.misc.match.core.HasMatch;
 import com.github.smallcreep.misc.match.core.IsHasReturn;
@@ -92,10 +93,12 @@ public final class HasAttributeTest {
                     )
                 ).build(),
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <Map attribute <{third}>>"
-                            + "\n     but: was "
-                            + "<{\"first\":\"1\",\"second\":\"2\"}>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <Map attribute <{third}>>"
+                                + "\n     but: was "
+                                + "<{\"first\":\"1\",\"second\":\"2\"}>"
+                        )
                     )
                 )
             )

@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match;
 
 import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasError;
 import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
 import com.github.smallcreep.misc.match.core.HasValue;
 import org.cactoos.text.StringAsText;
@@ -51,8 +52,10 @@ public final class TextAsErrorTest {
             ),
             new HasValue<>(
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "test"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "test"
+                        )
                     )
                 )
             )

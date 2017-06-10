@@ -25,22 +25,32 @@
 package com.github.smallcreep.misc.match;
 
 import java.io.IOException;
+import org.cactoos.Scalar;
 
 /**
- * Matcher.
  *
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Matcher type
  * @since 0.1
  */
-public interface Matcher<T> {
+public final class OptionalSimpleAssertion implements Scalar<Optional<Assertion>> {
 
-    /**
-     * Match actual item.
-     * @param actual Actual item
-     * @return Optional, if optional has, than match fail
-     * @throws IOException if there is any problem
-     */
-    Optional<Assertion> match(Object actual) throws IOException;
+    private final Optional<Assertion> origin;
+
+    public OptionalSimpleAssertion(final Optional<Assertion> origin) {
+        this.origin = origin;
+    }
+
+    @Override
+    public Optional<Assertion> asValue() throws IOException {
+        final Optional<Assertion> assertion;
+        if (this.origin.has()) {
+            assertion = new Optional.Single<>(
+                new SimpleAssertion(this.origin.get())
+            );
+        } else {
+            assertion = this.origin;
+        }
+        return assertion;
+    }
 }

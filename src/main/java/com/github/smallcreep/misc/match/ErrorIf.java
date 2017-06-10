@@ -27,6 +27,7 @@ package com.github.smallcreep.misc.match;
 import java.io.IOException;
 import org.cactoos.Scalar;
 import org.cactoos.Text;
+import org.cactoos.text.StringAsText;
 
 /**
  * Return error if {@link ErrorIf#func}
@@ -35,12 +36,12 @@ import org.cactoos.Text;
  * @version $Id$
  * @since 0.1
  */
-public final class ErrorIf implements Scalar<Optional<AssertionError>> {
+public final class ErrorIf implements Scalar<Optional<Assertion>> {
 
     /**
-     * Error msg.
+     * Assertion.
      */
-    private final Text msg;
+    private final Assertion assertion;
 
     /**
      * Function.
@@ -53,17 +54,32 @@ public final class ErrorIf implements Scalar<Optional<AssertionError>> {
      * @param func Function
      */
     public ErrorIf(final Text error, final Func func) {
-        this.msg = error;
+        this(
+            new Assertion.Simple(
+                error,
+                new StringAsText("")
+            ),
+            func
+        );
+    }
+
+    /**
+     * Public Ctor.
+     * @param assertion Assertion
+     * @param func Function
+     */
+    public ErrorIf(final Assertion assertion, final Func func) {
+        this.assertion = assertion;
         this.func = func;
     }
 
     @Override
-    public Optional<AssertionError> asValue() throws IOException {
-        final Optional<AssertionError> error;
+    public Optional<Assertion> asValue() throws IOException {
+        final Optional<Assertion> error;
         if (this.func.apply()) {
             error = new Optional.Empty<>();
         } else {
-            error = new TextAsError(this.msg).asValue();
+            error = new Optional.Single<>(this.assertion);
         }
         return error;
     }
@@ -78,7 +94,8 @@ public final class ErrorIf implements Scalar<Optional<AssertionError>> {
          * Function method.
          *
          * @return Boolean value, return true if function correct
+         * @throws IOException If fails
          */
-        boolean apply();
+        boolean apply() throws IOException;
     }
 }

@@ -26,23 +26,29 @@ package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.ArrayAssertionError;
 import com.github.smallcreep.misc.match.Assertion;
+import com.github.smallcreep.misc.match.ErrorIf;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
+import com.github.smallcreep.misc.match.SimpleErrorAsText;
 import com.jcabi.immutable.Array;
 import java.io.IOException;
+import lombok.ToString;
 import org.cactoos.Func;
 import org.cactoos.list.ArrayAsIterable;
+import org.cactoos.list.FilteredIterable;
 import org.cactoos.list.TransformedIterable;
 
 /**
- * This Matcher match multi matchers.
- *
+ * This Matcher match all matchers,
+ * and if one of it return empty error,
+ * than matcher return empty.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Matcher type
+ * @param <T> Type matcher
  * @since 0.1
  */
-public final class HasAllOf<T> implements Matcher<T> {
+@ToString(of = "matchers")
+public final class AnyOf<T> implements Matcher<T> {
 
     /**
      * Expected matchers.
@@ -54,7 +60,7 @@ public final class HasAllOf<T> implements Matcher<T> {
      * @param matchers Expected matchers
      */
     @SafeVarargs
-    public HasAllOf(final Matcher<T>... matchers) {
+    public AnyOf(final Matcher<T>... matchers) {
         this(new ArrayAsIterable<>(matchers));
     }
 
@@ -62,24 +68,36 @@ public final class HasAllOf<T> implements Matcher<T> {
      * Public Ctor.
      * @param matchers Expected matchers
      */
-    public HasAllOf(final Iterable<Matcher<T>> matchers) {
+    public AnyOf(final Iterable<Matcher<T>> matchers) {
         this.matchers = new Array<>(matchers);
     }
 
     @Override
-    public Optional<Assertion> match(final Object actual)
-        throws IOException {
-        return new ArrayAssertionError(
-            new TransformedIterable<>(
-                matchers,
-                new Func<Matcher<T>, Optional<Assertion>>() {
+    public Optional<Assertion> match(final Object actual) throws IOException {
+        return new ErrorIf(
+            new SimpleErrorAsText(
+                this.matchers,
+                actual
+            ),
+            () -> new FilteredIterable<>(
+                new TransformedIterable<>(
+                    matchers,
+                    new Func<Matcher<T>, Optional<Assertion>>() {
+                        @Override
+                        public Optional<Assertion> apply(
+                            final Matcher<T> input) throws IOException {
+                            return input.match(actual);
+                        }
+                    }
+                ),
+                new Func<Optional<Assertion>, Boolean>() {
                     @Override
-                    public Optional<Assertion> apply(
-                        final Matcher<T> input) throws IOException {
-                        return input.match(actual);
+                    public Boolean apply(final Optional<Assertion> input)
+                        throws IOException {
+                        return !input.has();
                     }
                 }
-            )
+            ).iterator().hasNext()
         ).asValue();
     }
 }

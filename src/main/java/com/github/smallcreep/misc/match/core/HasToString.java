@@ -24,6 +24,7 @@
 
 package com.github.smallcreep.misc.match.core;
 
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
@@ -51,7 +52,7 @@ public final class HasToString<T> implements Matcher<T> {
     }
 
     @Override
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
         return matcher.match(actual.toString());
     }

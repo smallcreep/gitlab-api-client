@@ -24,6 +24,7 @@
 
 package com.github.smallcreep.misc.match.core;
 
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.IsType;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
@@ -84,11 +85,11 @@ public final class IsThrowError<T> implements Matcher<T> {
 
     @Override
     @SuppressWarnings("unchecked")
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
-        Optional<AssertionError> error = new TextAsError(
+        Optional<Assertion> error = new TextAsError(
             new SimpleErrorAsText(
-                "throw " + this.exception,
+                "Matcher throw " + this.exception,
                 "not throw any exception"
             )
         ).asValue();
@@ -106,5 +107,13 @@ public final class IsThrowError<T> implements Matcher<T> {
             ).match(thr);
         }
         return error;
+    }
+
+    @Override
+    public String toString() {
+        return String.format(
+            "Matcher %s throw exception %s, after call function match(Object), and exception message is <%s>",
+            this.matcher, this.exception, this.msg
+        );
     }
 }

@@ -24,11 +24,15 @@
 
 package com.github.smallcreep.misc.match.core;
 
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.ErrorIf;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
 import com.github.smallcreep.misc.match.SimpleErrorAsText;
 import java.io.IOException;
+import lombok.ToString;
+import org.cactoos.text.FormattedText;
+import org.cactoos.text.StringAsText;
 
 /**
  * Matcher equal.
@@ -39,6 +43,7 @@ import java.io.IOException;
  * @param <T> Matcher type
  * @since 0.1
  */
+@ToString
 public final class IsEqualTo<T> implements Matcher<T> {
 
     /**
@@ -55,14 +60,19 @@ public final class IsEqualTo<T> implements Matcher<T> {
     }
 
     @Override
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
-        return new ErrorIf(
-            new SimpleErrorAsText(
-                expected,
-                actual
-            ),
-            () -> expected.equals(actual)
-        ).asValue();
+        final Optional<Assertion> assertion;
+        if (!expected.equals(actual)) {
+            assertion = new Optional.Single<>(
+                new Assertion.Simple(
+                    new FormattedText("that equals <%s>", expected),
+                    new FormattedText("<%s>", actual)
+                )
+            );
+        } else {
+            assertion = new Optional.Empty<>();
+        }
+        return assertion;
     }
 }

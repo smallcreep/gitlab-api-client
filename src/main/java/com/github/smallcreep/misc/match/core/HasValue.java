@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
@@ -55,7 +56,7 @@ public final class HasValue<T> extends AbstractTypeSafeMatcher<Scalar<T>> {
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final Scalar<T> actual)
+    protected Optional<Assertion> matchSafely(final Scalar<T> actual)
         throws IOException {
         return this.matcher.match(actual.asValue());
     }

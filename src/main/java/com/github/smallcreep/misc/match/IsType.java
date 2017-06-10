@@ -51,12 +51,12 @@ public final class IsType<T> implements Matcher<T> {
     }
 
     @Override
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
         return new ErrorIf(
             new SimpleErrorAsText(
-                this.type.toString(),
-                actual.getClass().toString()
+                this.type,
+                actual.getClass()
             ),
             () -> this.type.isInstance(actual)
         ).asValue();

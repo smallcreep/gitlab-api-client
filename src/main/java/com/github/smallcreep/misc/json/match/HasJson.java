@@ -26,6 +26,7 @@ package com.github.smallcreep.misc.json.match;
 
 import com.github.smallcreep.misc.json.JsonReadable;
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
 import javax.json.JsonObject;
@@ -55,7 +56,7 @@ public final class HasJson extends AbstractTypeSafeMatcher<JsonReadable> {
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final JsonReadable item)
+    protected Optional<Assertion> matchSafely(final JsonReadable item)
         throws IOException {
         return this.matcher.match(item.json());
     }

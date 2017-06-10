@@ -50,8 +50,8 @@ public final class SimpleErrorAsText implements Text {
     public SimpleErrorAsText(final Object expected, final Object actual) {
         this(
             new FormattedText(
-                "%nExpected: <%s>"
-                    + "%n     but: was <%s>",
+                "%nExpected: %s"
+                    + "%n     but: was %s",
                 expected,
                 actual
             )

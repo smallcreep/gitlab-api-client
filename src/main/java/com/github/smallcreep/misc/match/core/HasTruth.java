@@ -26,6 +26,7 @@ package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
 import com.github.smallcreep.misc.match.Assert;
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
 
@@ -39,7 +40,7 @@ import java.io.IOException;
 public final class HasTruth extends AbstractTypeSafeMatcher<Assert> {
 
     @Override
-    protected Optional<AssertionError> matchSafely(final Assert actual)
+    protected Optional<Assertion> matchSafely(final Assert actual)
         throws IOException {
         actual.truth();
         return new Optional.Empty<>();

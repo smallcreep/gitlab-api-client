@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match;
 
 import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasError;
 import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
 import com.github.smallcreep.misc.match.core.HasValue;
 import com.github.smallcreep.misc.match.core.IsHasReturn;
@@ -48,25 +49,31 @@ public final class ArrayAssertionFirstErrorTest {
     public void firstError() throws Exception {
         new Assert.That<>(
             new ArrayAssertionFirstError(
-                new ArrayAsIterable<Optional<AssertionError>>(
+                new ArrayAsIterable<Optional<Assertion>>(
                     new Optional.Empty<>(),
                     new Optional.Single<>(
-                        new AssertionError(
-                            "first"
+                        new Assertion.FromError(
+                            new AssertionError(
+                                "first"
+                            )
                         )
                     ),
                     new Optional.Empty<>(),
                     new Optional.Single<>(
-                        new AssertionError(
-                            "second"
+                        new Assertion.FromError(
+                            new AssertionError(
+                                "second"
+                            )
                         )
                     )
                 )
             ),
             new HasValue<>(
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "first"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "first"
+                        )
                     )
                 )
             )
@@ -82,7 +89,7 @@ public final class ArrayAssertionFirstErrorTest {
     public void empty() throws Exception {
         new Assert.That<>(
             new ArrayAssertionFirstError(
-                new ArrayAsIterable<Optional<AssertionError>>(
+                new ArrayAsIterable<Optional<Assertion>>(
                     new Optional.Empty<>(),
                     new Optional.Empty<>()
                 )

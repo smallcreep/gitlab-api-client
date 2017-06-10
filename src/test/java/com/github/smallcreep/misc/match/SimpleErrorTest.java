@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match;
 
 import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasError;
 import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
 import com.github.smallcreep.misc.match.core.HasMatch;
 import org.junit.Test;
@@ -51,9 +52,11 @@ public final class SimpleErrorTest {
             new HasMatch(
                 "actual",
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <expected>"
-                            + "\n     but: was <actual>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <expected>"
+                                + "\n     but: was <actual>"
+                        )
                     )
                 )
             )

@@ -24,6 +24,7 @@
 
 package com.github.smallcreep.misc.match.fk;
 
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
@@ -40,7 +41,7 @@ import java.io.IOException;
 public final class FakeMatcher<T> implements Matcher<T> {
 
     @Override
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
         throw new UnsupportedOperationException(
             "Method match(Object) not supported"

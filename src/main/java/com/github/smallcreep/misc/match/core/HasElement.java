@@ -25,8 +25,11 @@
 package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Assertion;
+import com.github.smallcreep.misc.match.ErrorIf;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
+import com.github.smallcreep.misc.match.SimpleErrorAsText;
 import java.io.IOException;
 
 /**
@@ -54,8 +57,19 @@ public final class HasElement<T> extends AbstractTypeSafeMatcher<Optional<T>> {
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final Optional<T> actual)
+    protected Optional<Assertion> matchSafely(final Optional<T> actual)
         throws IOException {
-        return this.matcher.match(actual.get());
+        final Optional<Assertion> assertion;
+        final Optional<Assertion> result = this.matcher.match(actual.get());
+        if (result.has()) {
+            assertion = new Optional.Single<>(
+                result.get()
+                    .addExpected("that Optional, after call function get(), must return the element %s")
+                    .addActual("Optional return element %s")
+            );
+        } else {
+            assertion = new Optional.Empty<>();
+        }
+        return assertion;
     }
 }

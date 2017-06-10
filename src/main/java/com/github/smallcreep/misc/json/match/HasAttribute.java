@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.json.match;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Optional;
 import com.github.smallcreep.misc.match.SimpleError;
 import java.io.IOException;
@@ -58,9 +59,9 @@ public final class HasAttribute<T extends Map<Object, ?>> extends
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final T actual)
+    protected Optional<Assertion> matchSafely(final T actual)
         throws IOException {
-        final Optional<AssertionError> error;
+        final Optional<Assertion> error;
         if (!actual.containsKey(this.attribute)) {
             error = new SimpleError<>(
                 new FormattedText(

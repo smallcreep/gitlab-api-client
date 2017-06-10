@@ -38,24 +38,24 @@ import org.cactoos.list.TransformedIterable;
  * @since 0.1
  */
 public final class ArrayAssertionError
-    implements Scalar<Optional<AssertionError>> {
+    implements Scalar<Optional<Assertion>> {
 
     /**
      * Iterable Assertion Error.
      */
-    private final Iterable<Optional<AssertionError>> errors;
+    private final Iterable<Optional<Assertion>> errors;
 
     /**
      * Public Ctor.
      * @param errors Iterable Assertion Error
      */
     public ArrayAssertionError(
-        final Iterable<Optional<AssertionError>> errors) {
+        final Iterable<Optional<Assertion>> errors) {
         this.errors = new FilteredIterable<>(
             errors,
-            new Func<Optional<AssertionError>, Boolean>() {
+            new Func<Optional<Assertion>, Boolean>() {
                 @Override
-                public Boolean apply(final Optional<AssertionError> input)
+                public Boolean apply(final Optional<Assertion> input)
                     throws IOException {
                     return input.has();
                 }
@@ -64,24 +64,26 @@ public final class ArrayAssertionError
     }
 
     @Override
-    public Optional<AssertionError> asValue() throws IOException {
-        final Optional<AssertionError> error;
+    public Optional<Assertion> asValue() throws IOException {
+        final Optional<Assertion> error;
         if (errors.iterator().hasNext()) {
             error = new Optional.Single<>(
-                new AssertionError(
-                    new TextOfIterable(
-                        new TransformedIterable<>(
-                            errors,
-                            new Func<Optional<AssertionError>, String>() {
-                                @Override
-                                public String apply(
-                                    final Optional<AssertionError> input)
-                                    throws IOException {
-                                    return input.get().getLocalizedMessage();
+                new Assertion.FromError(
+                    new AssertionError(
+                        new TextOfIterable(
+                            new TransformedIterable<>(
+                                errors,
+                                new Func<Optional<Assertion>, String>() {
+                                    @Override
+                                    public String apply(
+                                        final Optional<Assertion> input)
+                                        throws IOException {
+                                        return input.get().error().getLocalizedMessage();
+                                    }
                                 }
-                            }
-                        )
-                    ).asString()
+                            )
+                        ).asString()
+                    )
                 )
             );
         } else {

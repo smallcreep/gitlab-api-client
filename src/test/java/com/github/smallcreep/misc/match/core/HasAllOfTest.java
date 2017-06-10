@@ -54,12 +54,14 @@ public final class HasAllOfTest {
             new HasMatch(
                 "actual",
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <expected>"
-                            + "\n     but: was <actual>"
-                            + "\nAnd"
-                            + "\nExpected: <test>"
-                            + "\n     but: was <actual>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <expected>"
+                                + "\n     but: was <actual>"
+                                + "\nAnd"
+                                + "\nExpected: <test>"
+                                + "\n     but: was <actual>"
+                        )
                     )
                 )
             )

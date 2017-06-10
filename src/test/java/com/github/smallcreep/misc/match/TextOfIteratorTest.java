@@ -24,23 +24,33 @@
 
 package com.github.smallcreep.misc.match;
 
-import java.io.IOException;
+import com.github.smallcreep.misc.match.core.EmptySting;
+import com.github.smallcreep.misc.match.text.HasText;
+import org.cactoos.list.ArrayAsIterable;
+import org.junit.Test;
 
 /**
- * Matcher.
- *
+ * Test Case for {@link TextOfIterator}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
- * @param <T> Matcher type
  * @since 0.1
  */
-public interface Matcher<T> {
+public final class TextOfIteratorTest {
 
     /**
-     * Match actual item.
-     * @param actual Actual item
-     * @return Optional, if optional has, than match fail
-     * @throws IOException if there is any problem
+     * Check return empty String if,
+     * empty Iterator.
+     * @throws Exception If fails
      */
-    Optional<Assertion> match(Object actual) throws IOException;
+    @Test
+    public void emptyStringIfEmptyIterator() throws Exception {
+        new Assert.That<>(
+            new TextOfIterator(
+                new ArrayAsIterable<>().iterator()
+            ),
+            new HasText(
+                new EmptySting()
+            )
+        ).truth();
+    }
 }

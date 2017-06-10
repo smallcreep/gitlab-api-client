@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match.text;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
@@ -54,7 +55,7 @@ public final class HasText extends AbstractTypeSafeMatcher<Text> {
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final Text actual)
+    protected Optional<Assertion> matchSafely(final Text actual)
         throws IOException {
         return matcher.match(actual.asString());
     }

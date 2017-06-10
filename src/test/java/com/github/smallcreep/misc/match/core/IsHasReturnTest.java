@@ -93,9 +93,11 @@ public final class IsHasReturnTest {
             new HasMatch(
                 new Optional.Single<>("test"),
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <false>"
-                            + "\n     but: was <true>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <false>"
+                                + "\n     but: was <true>"
+                        )
                     )
                 )
             )
@@ -117,9 +119,11 @@ public final class IsHasReturnTest {
             new HasMatch(
                 new Optional.Empty<>(),
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <true>"
-                            + "\n     but: was <false>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <true>"
+                                + "\n     but: was <false>"
+                        )
                     )
                 )
             )

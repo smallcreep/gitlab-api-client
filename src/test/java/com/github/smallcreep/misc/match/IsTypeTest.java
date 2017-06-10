@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match;
 
 import com.github.smallcreep.misc.match.core.HasElement;
+import com.github.smallcreep.misc.match.core.HasError;
 import com.github.smallcreep.misc.match.core.HasLocalizedMessage;
 import com.github.smallcreep.misc.match.core.HasMatch;
 import com.github.smallcreep.misc.match.core.IsHasReturn;
@@ -70,9 +71,11 @@ public final class IsTypeTest {
             new HasMatch(
                 "test",
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <class java.lang.Integer>"
-                            + "\n     but: was <class java.lang.String>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <class java.lang.Integer>"
+                                + "\n     but: was <class java.lang.String>"
+                        )
                     )
                 )
             )

@@ -25,6 +25,7 @@
 package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.ArrayAssertionFirstError;
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
 import com.jcabi.immutable.Array;
@@ -67,14 +68,14 @@ public final class FirstOf<T> implements Matcher<T> {
     }
 
     @Override
-    public Optional<AssertionError> match(final Object actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
         return new ArrayAssertionFirstError(
             new TransformedIterable<>(
                 matchers,
-                new Func<Matcher<T>, Optional<AssertionError>>() {
+                new Func<Matcher<T>, Optional<Assertion>>() {
                     @Override
-                    public Optional<AssertionError> apply(
+                    public Optional<Assertion> apply(
                         final Matcher<T> input) throws IOException {
                         return input.match(actual);
                     }

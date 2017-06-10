@@ -25,8 +25,10 @@
 package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
+import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Optional;
 import java.io.IOException;
+import lombok.ToString;
 
 /**
  * Matcher match return {@link Optional#has()}.
@@ -35,6 +37,7 @@ import java.io.IOException;
  * @param <T> Optional type
  * @since 0.1
  */
+@ToString
 public final class IsHasReturn<T> extends AbstractTypeSafeMatcher<Optional<T>> {
 
     /**
@@ -51,7 +54,7 @@ public final class IsHasReturn<T> extends AbstractTypeSafeMatcher<Optional<T>> {
     }
 
     @Override
-    protected Optional<AssertionError> matchSafely(final Optional<T> actual)
+    protected Optional<Assertion> matchSafely(final Optional<T> actual)
         throws IOException {
         return new IsEqualTo<>(expected).match(actual.has());
     }

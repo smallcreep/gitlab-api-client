@@ -36,7 +36,7 @@ import org.cactoos.Text;
  * @version $Id$
  * @since 0.1
  */
-public final class TextAsError implements Scalar<Optional<AssertionError>> {
+public final class TextAsError implements Scalar<Optional<Assertion>> {
 
     /**
      * Error message.
@@ -52,9 +52,11 @@ public final class TextAsError implements Scalar<Optional<AssertionError>> {
     }
 
     @Override
-    public Optional<AssertionError> asValue() throws IOException {
+    public Optional<Assertion> asValue() throws IOException {
         return new Optional.Single<>(
-            new AssertionError(this.text.asString())
+            new Assertion.FromError(
+                new AssertionError(this.text.asString())
+            )
         );
     }
 }

@@ -22,70 +22,33 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.misc.json.match;
+package com.github.smallcreep.misc.match.core;
 
-import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
 import com.github.smallcreep.misc.match.Assertion;
+import com.github.smallcreep.misc.match.ErrorIf;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
-import com.github.smallcreep.misc.match.core.HasAllOf;
-import com.jcabi.immutable.Array;
+import com.github.smallcreep.misc.match.SimpleErrorAsText;
 import java.io.IOException;
-import javax.json.JsonObject;
-import org.cactoos.list.ArrayAsIterable;
-import org.cactoos.list.TransformedIterable;
 
 /**
- * Matcher Json has attributes.
- *
+ * Match actual object is null.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
+ * @param <T> Type Matcher
  * @since 0.1
  */
-public final class HasAttributes extends AbstractTypeSafeMatcher<JsonObject> {
-
-    /**
-     * Expected matcher.
-     */
-    private final Matcher<JsonObject> matcher;
-
-    /**
-     * Public Ctor.
-     *
-     * @param attributes Expected Attributes
-     */
-    public HasAttributes(final String... attributes) {
-        this(new ArrayAsIterable<>(attributes));
-    }
-
-    /**
-     * Public Ctor.
-     *
-     * @param attributes Expected Attributes
-     */
-    public HasAttributes(final Iterable<String> attributes) {
-        this(
-            new HasAllOf<>(
-                new TransformedIterable<>(
-                    new Array<>(attributes),
-                    input -> new HasAttribute(input)
-                )
-            )
-        );
-    }
-
-    /**
-     * Private Ctor.
-     * @param matcher Expected matcher
-     */
-    private HasAttributes(final Matcher<JsonObject> matcher) {
-        super(JsonObject.class);
-        this.matcher = matcher;
-    }
+public final class IsNull<T> implements Matcher<T> {
 
     @Override
-    protected Optional<Assertion> matchSafely(final JsonObject actual)
+    public Optional<Assertion> match(final Object actual)
         throws IOException {
-        return matcher.match(actual);
+        return new ErrorIf(
+            new SimpleErrorAsText(
+                "null",
+                actual
+            ),
+            () -> actual == null
+        ).asValue();
     }
 }

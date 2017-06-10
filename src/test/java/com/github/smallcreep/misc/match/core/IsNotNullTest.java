@@ -48,9 +48,11 @@ public final class IsNotNullTest {
             new HasMatch(
                 null,
                 new HasElement<>(
-                    new HasLocalizedMessage<>(
-                        "\nExpected: <Not null object>"
-                            + "\n     but: was <found null>"
+                    new HasError(
+                        new HasLocalizedMessage<>(
+                            "\nExpected: <Not null object>"
+                                + "\n     but: was <found null>"
+                        )
                     )
                 )
             )

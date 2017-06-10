@@ -22,70 +22,30 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.misc.json.match;
+package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.AbstractTypeSafeMatcher;
 import com.github.smallcreep.misc.match.Assertion;
 import com.github.smallcreep.misc.match.Matcher;
 import com.github.smallcreep.misc.match.Optional;
-import com.github.smallcreep.misc.match.core.HasAllOf;
-import com.jcabi.immutable.Array;
 import java.io.IOException;
-import javax.json.JsonObject;
-import org.cactoos.list.ArrayAsIterable;
-import org.cactoos.list.TransformedIterable;
 
 /**
- * Matcher Json has attributes.
  *
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class HasAttributes extends AbstractTypeSafeMatcher<JsonObject> {
+public final class HasError extends AbstractTypeSafeMatcher<Assertion> {
 
-    /**
-     * Expected matcher.
-     */
-    private final Matcher<JsonObject> matcher;
+    private final Matcher<Throwable> matcher;
 
-    /**
-     * Public Ctor.
-     *
-     * @param attributes Expected Attributes
-     */
-    public HasAttributes(final String... attributes) {
-        this(new ArrayAsIterable<>(attributes));
-    }
-
-    /**
-     * Public Ctor.
-     *
-     * @param attributes Expected Attributes
-     */
-    public HasAttributes(final Iterable<String> attributes) {
-        this(
-            new HasAllOf<>(
-                new TransformedIterable<>(
-                    new Array<>(attributes),
-                    input -> new HasAttribute(input)
-                )
-            )
-        );
-    }
-
-    /**
-     * Private Ctor.
-     * @param matcher Expected matcher
-     */
-    private HasAttributes(final Matcher<JsonObject> matcher) {
-        super(JsonObject.class);
+    public HasError(final Matcher<Throwable> matcher) {
         this.matcher = matcher;
     }
 
     @Override
-    protected Optional<Assertion> matchSafely(final JsonObject actual)
-        throws IOException {
-        return matcher.match(actual);
+    protected Optional<Assertion> matchSafely(final Assertion actual) throws IOException {
+        return this.matcher.match(actual.error());
     }
 }

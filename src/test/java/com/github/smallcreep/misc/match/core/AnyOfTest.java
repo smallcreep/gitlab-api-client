@@ -25,29 +25,35 @@
 package com.github.smallcreep.misc.match.core;
 
 import com.github.smallcreep.misc.match.Assert;
+import org.cactoos.text.FormattedText;
 import org.junit.Test;
 
 /**
- * Test Case for {@link IsEqualTo}.
+ * Test Case for {@link AnyOf}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class IsEqualToTest {
+public final class AnyOfTest {
 
     /**
      * Check Matcher doesn't return error
-     * if actual object equal expected object.
+     * if any of matcher doesn't return error.
      * @throws Exception If fails
      */
     @Test
-    public void emptyIfActualEqualExpected() throws Exception {
+    public void emptyIfAnyMatcherReturnEmpty() throws Exception {
         new Assert.That<>(
-            new IsEqualTo<>(
-                "expected"
+            new AnyOf<>(
+                new IsEqualTo<>(
+                    "first"
+                ),
+                new IsEqualTo<>(
+                    "second"
+                )
             ),
             new HasMatch(
-                "expected",
+                "second",
                 new IsHasReturn<>(
                     false
                 )
@@ -57,22 +63,26 @@ public final class IsEqualToTest {
 
     /**
      * Check Matcher return error
-     * if actual object doesn't equal expected object.
+     * if all of matcher return error.
      * @throws Exception If fails
      */
     @Test
-    public void errorIfActualDoesNotEqualExpected() throws Exception {
+    public void errorIfAnyMatcherReturnEmpty() throws Exception {
         new Assert.That<>(
-            new IsEqualTo<>(
-                "expected"
+            new AnyOf<>(
+                new IsEqualTo<>(
+                    "first"
+                ),
+                new IsEqualTo<>(
+                    "second"
+                )
             ),
             new HasMatch(
                 "actual",
                 new HasElement<>(
                     new HasError(
                         new HasLocalizedMessage<>(
-                            "\nExpected: <expected>"
-                                + "\n     but: was <actual>"
+                            ""
                         )
                     )
                 )
