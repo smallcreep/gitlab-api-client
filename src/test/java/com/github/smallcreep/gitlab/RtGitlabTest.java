@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -52,7 +52,7 @@ public final class RtGitlabTest {
 
     /**
      * Test case setUp method.
-     * <p>
+     *
      * <p> Start container
      *
      * @throws IOException if there is any problem
@@ -60,9 +60,9 @@ public final class RtGitlabTest {
     @Before
     public void setUp() throws IOException {
         container = new MkGrizzlyContainer()
-                .next(
-                        new MkAnswer.Simple("hello, world!")
-                ).start();
+            .next(
+                new MkAnswer.Simple("hello, world!")
+            ).start();
     }
 
     /**
@@ -73,22 +73,22 @@ public final class RtGitlabTest {
     @Test
     public void requestUseragent() throws Exception {
         new RtGitlab(
-                new JdkRequest(container.home())
+            new JdkRequest(container.home())
         ).entry().fetch();
         container.stop();
         MatcherAssert.assertThat(
-                container.take().headers(),
-                Matchers.hasEntry(
-                        Matchers.equalTo("User-Agent"),
-                        Matchers.hasItem(
-                                String.format(
-                                        "gitlab-api-client %s %s %s",
-                                        Manifests.read("Gilatb-Version"),
-                                        Manifests.read("Gitlab-Build"),
-                                        Manifests.read("Gitlab-Date")
-                                )
-                        )
+            container.take().headers(),
+            Matchers.hasEntry(
+                Matchers.equalTo("User-Agent"),
+                Matchers.hasItem(
+                    String.format(
+                        "gitlab-api-client %s %s %s",
+                        Manifests.read("Gilatb-Version"),
+                        Manifests.read("Gitlab-Build"),
+                        Manifests.read("Gitlab-Date")
+                    )
                 )
+            )
         );
     }
 
@@ -100,14 +100,14 @@ public final class RtGitlabTest {
     @Test
     public void requestPath() throws Exception {
         new RtGitlab(
-                new JdkRequest(container.home())
+            new JdkRequest(container.home())
         ).entry().fetch();
         container.stop();
         MatcherAssert.assertThat(
-                container.take().uri(),
-                Matchers.equalTo(
-                        new URI("/api/v4")
-                )
+            container.take().uri(),
+            Matchers.equalTo(
+                new URI("/api/v4")
+            )
         );
     }
 }

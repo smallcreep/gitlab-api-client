@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,47 +22,42 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.misc.match.core;
+package com.github.smallcreep.gitlab.mk;
 
-import com.github.smallcreep.misc.match.Assert;
-import org.cactoos.Scalar;
-import org.cactoos.text.StringAsText;
-import org.cactoos.text.TextAsLong;
+import com.jcabi.xml.XML;
+import com.jcabi.xml.XMLDocument;
+import javax.json.JsonObject;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
 import org.junit.Test;
 
 /**
- * Test Case for {@link HasValue}.
+ * Test Case for {@link JsonNode}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class HasValueTest {
+public final class JsonNodeTest {
 
     /**
-     * Check Matcher execute wrapped matcher
-     * with actual value is equals
-     * return value method {@link Scalar#asValue()} object actual.
-     * @throws Exception If fails
+     * JsonNode can text XML to JSON.
+     * @throws Exception If some problem inside
      */
     @Test
-    public void executeMethodAsValue() throws Exception {
-        new Assert.That<>(
-            new HasValue<>(
-                new IsEqualTo<>(
-                    // @checkstyle MagicNumberCheck (1 line)
-                    100L
-                )
-            ),
-            new HasMatch(
-                new TextAsLong(
-                    new StringAsText(
-                        "100"
-                    )
-                ),
-                new IsHasReturn<>(
-                    false
-                )
-            )
-        ).truth();
+    public void convertsXmlToJson() throws Exception {
+        final XML xml = new XMLDocument(
+            "<user><name>Jeff</name><dept><title>IT</title></dept></user>"
+        );
+        final JsonObject json = new JsonNode(xml.nodes("user").get(0)).json();
+        MatcherAssert.assertThat(json, Matchers.notNullValue());
+        MatcherAssert.assertThat(
+            json.getString("name"),
+            Matchers.equalTo("Jeff")
+        );
+        MatcherAssert.assertThat(
+            json.getJsonObject("dept").getString("title"),
+            Matchers.equalTo("IT")
+        );
     }
+
 }

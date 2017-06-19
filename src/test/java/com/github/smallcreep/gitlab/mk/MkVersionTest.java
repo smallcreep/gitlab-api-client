@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,39 +22,41 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.misc.match.core;
+package com.github.smallcreep.gitlab.mk;
 
-import com.github.smallcreep.misc.match.Assert;
+import com.github.smallcreep.gitlab.mk.storage.StFile;
+import com.github.smallcreep.gitlab.mk.storage.StSynced;
+import org.hamcrest.CoreMatchers;
+import org.hamcrest.MatcherAssert;
 import org.junit.Test;
+import org.xembly.Directives;
 
 /**
- * Test Case for {@link HasLocalizedMessage}.
+ * Test Case for {@link MkVersion}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class HasLocalizedMessageTest {
+public final class MkVersionTest {
 
     /**
-     * Check Matcher execute wrapped matcher
-     * with actual value is equals
-     * return value method {@link Throwable#getLocalizedMessage()}
-     * object actual.
+     * Check fetch Version.
      * @throws Exception If fails
      */
     @Test
-    public void executeMethodToString() throws Exception {
-        new Assert.That<>(
-            new HasLocalizedMessage(
-                "expected"
-            ),
-            new HasMatch(
-                new Throwable("expected"),
-                new IsHasReturn<>(
-                    false
-                )
+    public void fetchVersion() throws Exception {
+        final MkStorage storage = new StSynced(new StFile());
+        storage.lock();
+        storage.apply(
+            new Directives().xpath("/gitlab").add("version").add("ver")
+                .set("19")
+        );
+        MatcherAssert.assertThat(
+            new MkVersion(storage).json().getString("ver"),
+            CoreMatchers.equalTo(
+                "19"
             )
-        ).truth();
+        );
+        storage.unlock();
     }
-
 }

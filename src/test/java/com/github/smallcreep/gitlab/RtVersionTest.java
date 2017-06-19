@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -57,31 +57,49 @@ public final class RtVersionTest {
     @Test
     public void fetchVersion() throws Exception {
         final JsonObject expected = Json.createObjectBuilder()
-                .add(
-                        "body",
-                        "hi"
-                ).build();
+            .add(
+                "body",
+                "hi"
+            ).build();
         final MkContainer container = new MkGrizzlyContainer().next(
-                new MkAnswer.Simple(
-                        HttpURLConnection.HTTP_OK,
-                        expected.toString()
-                )
+            new MkAnswer.Simple(
+                HttpURLConnection.HTTP_OK,
+                expected.toString()
+            )
         ).start();
         MatcherAssert.assertThat(
-                new RtVersion(
-                        new MkGitlab(),
-                        new ApacheRequest(container.home())
-                ).json(),
-                CoreMatchers.equalTo(
-                        expected
-                )
+            new RtVersion(
+                new MkGitlab(),
+                new ApacheRequest(container.home())
+            ).json(),
+            CoreMatchers.equalTo(
+                expected
+            )
         );
         container.stop();
         MatcherAssert.assertThat(
-                container.take().uri(),
-                CoreMatchers.equalTo(
-                        new URI("/version")
-                )
+            container.take().uri(),
+            CoreMatchers.equalTo(
+                new URI("/version")
+            )
+        );
+    }
+
+    /**
+     * RtVersion return same gitlab instance
+     * after call {@link RtVersion#gitlab()}.
+     * @throws Exception If fails
+     */
+    @Test
+    public void gitlabSame() throws Exception {
+        final MkGitlab gitlab = new MkGitlab();
+        MatcherAssert.assertThat(
+            new RtVersion(
+                gitlab
+            ).gitlab(),
+            CoreMatchers.equalTo(
+                gitlab
+            )
         );
     }
 }

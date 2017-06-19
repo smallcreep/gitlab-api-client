@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -30,6 +30,8 @@ import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import java.io.IOException;
 import javax.json.JsonObject;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Mock Version api.
@@ -40,6 +42,8 @@ import javax.json.JsonObject;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@EqualsAndHashCode(of = "storage")
+@ToString(of = "storage")
 class MkVersion implements Version {
 
     /**
@@ -58,13 +62,13 @@ class MkVersion implements Version {
 
     @Override
     public Gitlab gitlab() {
-        return new MkGitlab();
+        return new MkGitlab(this.storage);
     }
 
     @Override
     public JsonObject json() throws IOException {
         return new JsonNode(
-                this.storage.xml().nodes(this.xpath()).get(0)
+            this.storage.xml().nodes(this.xpath()).get(0)
         ).json();
     }
 

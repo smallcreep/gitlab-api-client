@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,10 +24,10 @@
 
 package com.github.smallcreep.gitlab.mk;
 
+import com.github.smallcreep.gitlab.mk.storage.StFile;
+import com.github.smallcreep.gitlab.mk.storage.StSynced;
 import com.jcabi.http.request.FakeRequest;
-
 import java.net.HttpURLConnection;
-
 import org.hamcrest.MatcherAssert;
 import org.hamcrest.Matchers;
 import org.junit.Test;
@@ -49,12 +49,29 @@ public final class MkGitlabTest {
     @Test
     public void requestHttp() throws Exception {
         MatcherAssert.assertThat(
-                new MkGitlab().entry(),
-                Matchers.equalTo(
-                        new FakeRequest()
-                                .withBody("{}")
-                                .withStatus(HttpURLConnection.HTTP_OK)
-                )
+            new MkGitlab().entry(),
+            Matchers.equalTo(
+                new FakeRequest()
+                    .withBody("{}")
+                    .withStatus(HttpURLConnection.HTTP_OK)
+            )
         );
+    }
+
+    /**
+     * MkGitlab return {@link MkVersion} after run {@link MkGitlab#version()}.
+     * @throws Exception If fails
+     */
+    @Test
+    public void getVersion() throws Exception {
+        final MkStorage storage = new StSynced(new StFile());
+        storage.lock();
+        MatcherAssert.assertThat(
+            new MkGitlab(storage).version(),
+            Matchers.equalTo(
+                new MkVersion(storage)
+            )
+        );
+        storage.unlock();
     }
 }

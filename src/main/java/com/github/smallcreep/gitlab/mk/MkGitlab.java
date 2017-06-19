@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -29,12 +29,17 @@ import com.github.smallcreep.gitlab.Projects;
 import com.github.smallcreep.gitlab.User;
 import com.github.smallcreep.gitlab.Users;
 import com.github.smallcreep.gitlab.Version;
+import com.github.smallcreep.gitlab.mk.storage.StFile;
+import com.github.smallcreep.gitlab.mk.storage.StSynced;
 import com.jcabi.aspects.Immutable;
 import com.jcabi.aspects.Loggable;
 import com.jcabi.http.Request;
 import com.jcabi.http.request.FakeRequest;
 
+import java.io.IOException;
 import java.net.HttpURLConnection;
+import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 /**
  * Mock Gitlab client.
@@ -45,18 +50,41 @@ import java.net.HttpURLConnection;
  */
 @Immutable
 @Loggable(Loggable.DEBUG)
+@ToString(of = "storage")
+@EqualsAndHashCode(of = "storage")
 public final class MkGitlab implements Gitlab {
+
+    /**
+     * Storage.
+     */
+    private final MkStorage storage;
+
+    /**
+     * Ctor.
+     * @throws IOException If failed
+     */
+    public MkGitlab() throws IOException {
+        this(new StSynced(new StFile()));
+    }
+
+    /**
+     * Ctor.
+     * @param storage Storage
+     */
+    public MkGitlab(final MkStorage storage) {
+        this.storage = storage;
+    }
 
     @Override
     public Request entry() {
         return new FakeRequest()
-                .withBody("{}")
-                .withStatus(HttpURLConnection.HTTP_OK);
+            .withBody("{}")
+            .withStatus(HttpURLConnection.HTTP_OK);
     }
 
     @Override
     public Version version() {
-        return null;
+        return new MkVersion(this.storage);
     }
 
     @Override

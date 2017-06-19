@@ -22,47 +22,67 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.gitlab;
+package com.github.smallcreep.gitlab.mk.storage;
 
-import com.jcabi.http.mock.MkAnswer;
-import com.jcabi.http.mock.MkContainer;
-import com.jcabi.http.mock.MkGrizzlyContainer;
-import com.jcabi.http.request.ApacheRequest;
-
-import java.net.HttpURLConnection;
-
-import org.hamcrest.MatcherAssert;
-import org.hamcrest.Matchers;
-import org.junit.Test;
+import com.github.smallcreep.gitlab.mk.MkStorage;
+import com.jcabi.aspects.Immutable;
+import com.jcabi.aspects.Loggable;
+import com.jcabi.xml.XML;
+import java.io.IOException;
+import lombok.EqualsAndHashCode;
+import org.xembly.Directive;
 
 /**
- * Test case for {@link RtJson}.
- *
+ * Syncronized Storage.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class RtHasJsonTest {
+@Immutable
+@EqualsAndHashCode(of = {"origin", "lock"})
+@Loggable(Loggable.DEBUG)
+public final class StSynced implements MkStorage {
 
     /**
-     * RtJson can fetch HTTP request.
-     *
-     * @throws Exception if there is any problem
+     * Original storage.
      */
-    @Test
-    public void sendHttpRequest() throws Exception {
-        final MkContainer container = new MkGrizzlyContainer().next(
-            new MkAnswer.Simple(
-                HttpURLConnection.HTTP_OK,
-                "{\"body\":\"hi\"}"
-            )
-        ).start();
-        MatcherAssert.assertThat(
-            new RtJson(
-                new ApacheRequest(container.home())
-            ).fetch().getString("body"),
-            Matchers.equalTo("hi")
-        );
-        container.stop();
+    private final MkStorage origin;
+    /**
+     * Lock object.
+     */
+    private final ImmutableReentrantLock lock =
+        new ImmutableReentrantLock();
+
+    /**
+     * Public ctor.
+     * @param storage Original
+     */
+    public StSynced(final MkStorage storage) {
+        this.origin = storage;
+    }
+
+    @Override
+    public String toString() {
+        return this.origin.toString();
+    }
+
+    @Override
+    public XML xml() throws IOException {
+        return this.origin.xml();
+    }
+
+    @Override
+    public void apply(final Iterable<Directive> dirs) throws IOException {
+        this.origin.apply(dirs);
+    }
+
+    @Override
+    public void lock() throws IOException {
+        this.lock.lock();
+    }
+
+    @Override
+    public void unlock() throws IOException {
+        this.lock.unlock();
     }
 }

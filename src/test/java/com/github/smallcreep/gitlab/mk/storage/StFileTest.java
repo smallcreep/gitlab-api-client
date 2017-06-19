@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -22,52 +22,41 @@
  * SOFTWARE.
  */
 
-package com.github.smallcreep.misc.match;
+package com.github.smallcreep.gitlab.mk.storage;
 
-import java.io.IOException;
-import org.cactoos.Text;
-import org.cactoos.text.FormattedText;
+import com.github.smallcreep.gitlab.mk.MkStorage;
+import org.hamcrest.MatcherAssert;
+import org.hamcrest.Matchers;
+import org.junit.Test;
+import org.xembly.Directives;
 
 /**
- * Create origin error, for assert.
- *
+ * Test Case for {@link StFile}.
  * @author Ilia Rogozhin (ilia.rogozhin@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-public final class SimpleErrorAsText implements Text {
+public final class StFileTest {
 
     /**
-     * Origin text.
+     * MkStorage can text and write.
+     * @throws Exception If some problem inside
      */
-    private final Text origin;
-
-    /**
-     * Public Ctor.
-     * @param expected Expected object
-     * @param actual Actual object
-     */
-    public SimpleErrorAsText(final Object expected, final Object actual) {
-        this(
-            new FormattedText(
-                "%nExpected: %s"
-                    + "%n     but: was %s",
-                expected,
-                actual
-            )
-        );
-    }
-
-    /**
-     * Private Ctor.
-     * @param origin Origin text
-     */
-    private SimpleErrorAsText(final Text origin) {
-        this.origin = origin;
-    }
-
-    @Override
-    public String asString() throws IOException {
-        return this.origin.asString();
+    @Test
+    public void readsAndWrites() throws Exception {
+        final MkStorage storage = new StFile();
+        storage.lock();
+        try {
+            storage.apply(
+                new Directives().xpath("/gitlab").add("test")
+                    .set("hello, world")
+            );
+            MatcherAssert.assertThat(
+                storage.xml().xpath("/gitlab/test/text()").get(0),
+                Matchers.endsWith(", world")
+            );
+        } finally {
+            storage.unlock();
+        }
     }
 }

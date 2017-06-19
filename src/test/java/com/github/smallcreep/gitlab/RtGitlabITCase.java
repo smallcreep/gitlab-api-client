@@ -1,5 +1,5 @@
 /**
- * MIT License
+ * The MIT License (MIT)
  *
  * Copyright (c) 2017, Ilia Rogozhin (ilia.rogozhin@gmail.com)
  *
@@ -10,8 +10,8 @@
  * copies of the Software, and to permit persons to whom the Software is
  * furnished to do so, subject to the following conditions:
  *
- * The above copyright notice and this permission notice shall
- * be included in all copies or substantial portions of the Software.
+ * The above copyright notice and this permission notice shall be included
+ *  in all copies or substantial portions of the Software.
  *
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
  * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
@@ -24,9 +24,6 @@
 
 package com.github.smallcreep.gitlab;
 
-import com.github.smallcreep.misc.json.match.HasAttributes;
-import com.github.smallcreep.misc.json.match.HasJson;
-import com.github.smallcreep.misc.match.Assert;
 import java.net.URI;
 import javax.json.Json;
 import org.hamcrest.MatcherAssert;
@@ -91,16 +88,12 @@ public final class RtGitlabITCase {
      */
     @Test
     public void authenticatesItself() throws Exception {
-        new Assert.That<>(
-            RtGitlabITCase.gitlab().self(),
-            new HasJson(
-                new HasAttributes(
-                    "name",
-                    "username",
-                    "id"
-                )
+        MatcherAssert.assertThat(
+            RtGitlabITCase.gitlab().self().json(),
+            Matchers.hasKey(
+                "name"
             )
-        ).truth();
+        );
     }
 
     /**
